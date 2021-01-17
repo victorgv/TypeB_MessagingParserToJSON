@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{C541ACB0-D40A-4749-8CC2-EE90FFC311B3}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="TypeB_Messaging_To_JSON_TESTING.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="TypeB_Messaging_To_JSON_SERVICE.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="TypeB_Messaging_To_JSON_TESTING">
+        <MSBuild Projects="TypeB_Messaging_To_JSON_TESTING.dproj"/>
+    </Target>
+    <Target Name="TypeB_Messaging_To_JSON_TESTING:Clean">
+        <MSBuild Projects="TypeB_Messaging_To_JSON_TESTING.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TypeB_Messaging_To_JSON_TESTING:Make">
+        <MSBuild Projects="TypeB_Messaging_To_JSON_TESTING.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="TypeB_Messaging_To_JSON_SERVICE">
+        <MSBuild Projects="TypeB_Messaging_To_JSON_SERVICE.dproj"/>
+    </Target>
+    <Target Name="TypeB_Messaging_To_JSON_SERVICE:Clean">
+        <MSBuild Projects="TypeB_Messaging_To_JSON_SERVICE.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TypeB_Messaging_To_JSON_SERVICE:Make">
+        <MSBuild Projects="TypeB_Messaging_To_JSON_SERVICE.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="TypeB_Messaging_To_JSON_TESTING;TypeB_Messaging_To_JSON_SERVICE"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="TypeB_Messaging_To_JSON_TESTING:Clean;TypeB_Messaging_To_JSON_SERVICE:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="TypeB_Messaging_To_JSON_TESTING:Make;TypeB_Messaging_To_JSON_SERVICE:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
