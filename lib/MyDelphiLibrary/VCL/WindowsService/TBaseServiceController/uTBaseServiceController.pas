@@ -4,8 +4,12 @@ interface
 
 uses Vcl.SvcMgr, Vcl.Forms, Winapi.Windows,System.SysUtils;
 
+type
+  TLogMessage = procedure(const s : String) of object;
+
 type TBaseServiceController = Class
   private
+    fLogMessage: TLogMessage;
     _ACTIVO: boolean;
     _Service: TService;
     FNameService: String;
@@ -23,7 +27,8 @@ type TBaseServiceController = Class
     procedure ServiceExecute; virtual;
     procedure ServiceStop; virtual;
     // ------
-    constructor Create(p_Service: TService); virtual;
+    constructor Create(p_LogMessage: TLogMessage); overload; virtual;
+    constructor Create(p_Service: TService); overload; virtual;
     destructor Destroy; override;
 End;
 
@@ -41,6 +46,16 @@ begin
   sendEventToLogMessage('ServiceCreate: OK', EVENTLOG_INFORMATION_TYPE);
 
 end;
+
+// -----------------------------------------------------------------------------
+
+constructor TBaseServiceController.Create(p_LogMessage: TLogMessage);
+begin
+  _Service := NIL;
+  fLogMessage := p_LogMessage;
+  create(_Service);
+end;
+
 
 // --------------------------------------------------------------------------------------
 
@@ -73,7 +88,7 @@ begin
   except
     on e: exception do
     begin // Captura las excepciones, ya que sino el servicio muere.
-      sleep(15000);
+      sleep(5000);
       // LOG.escribeERROR(e.Message);
     end;
   end;
@@ -106,7 +121,9 @@ end;
 
 procedure TBaseServiceController.sendEventToLogMessage(const p_message: String; p_EventType: DWord);
 begin
-  _Service.LogMessage(p_message,p_EventType); // Log de eventos de windows
+  if assigned(_Service) then _Service.LogMessage(p_message,p_EventType) // Log de eventos de windows
+  else if assigned(fLogMessage) then fLogMessage(p_message)
+  else ;
 end;
 
 // -----------------------------------------------------------------------------
