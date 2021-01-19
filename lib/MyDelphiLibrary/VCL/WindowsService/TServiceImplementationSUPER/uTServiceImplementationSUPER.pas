@@ -143,21 +143,17 @@ procedure TServiceImplementationSUPER.Execute;
 begin
   //
   while not Terminated AND (NOT TestApplicationTerminated) do  // Evalua cuando tiene que finalizar
-  //try
-  begin
+  try
+    validateInstanceIsLive;
     Sleep(1000);
     sendEventToLogMessage('HOLA',EVENTLOG_INFORMATION_TYPE);
-{    ProcesarMensajes;
-    if Activo then // Si despu�s del sleep sigue activo
-    begin
-      validateInstanceIsLive;
-    end;
+    ProcesarMensajes;
   except
     on e: exception do
     begin // Captura las excepciones, ya que sino el servicio muere.
       sleep(5000);
       // LOG.escribeERROR(e.Message);
-    end;}
+    end;
   end;
 end;
 

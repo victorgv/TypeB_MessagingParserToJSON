@@ -2,10 +2,11 @@ unit uTServiceImplementation;
 
 interface
 
-uses uTServiceImplementationSUPER;
+uses uTServiceImplementationSUPER,IdHTTPWebBrokerBridge;
 
 type TServiceImplementation = Class(TServiceImplementationSUPER)
   private
+    LServer: TIdHTTPWebBrokerBridge;
   protected
     procedure validateInstanceIsLive; override;
     function getServiceCode: String; Override;  // Unique code to indentify your service
@@ -25,6 +26,11 @@ end;
 
 procedure TServiceImplementation.validateInstanceIsLive;
 begin
+  if not assigned(LServer) then
+   ; //...
+
+
+
 
 end;
 
