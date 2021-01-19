@@ -23,7 +23,6 @@ object fmTesting: TfmTesting
     Align = alTop
     Caption = 'Panel1'
     TabOrder = 0
-    ExplicitTop = 0
     object Panel2: TPanel
       Left = 1
       Top = 1
@@ -32,7 +31,6 @@ object fmTesting: TfmTesting
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitHeight = 111
       object rb_internal: TRadioButton
         Left = 16
         Top = 92

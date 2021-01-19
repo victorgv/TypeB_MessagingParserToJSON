@@ -3,8 +3,8 @@ program TypeB_Messaging_To_JSON_TESTING;
 uses
   Vcl.Forms,
   ufmTesting in '..\..\Source\ufmTesting.pas' {fmTesting},
-  uTServiceImplementation in '..\..\source\uTServiceImplementation.pas',
-  uTBaseServiceController in '..\..\lib\MyDelphiLibrary\VCL\WindowsService\TBaseServiceController\uTBaseServiceController.pas';
+  uTServiceImplementationSUPER in '..\..\lib\MyDelphiLibrary\VCL\WindowsService\TServiceImplementationSUPER\uTServiceImplementationSUPER.pas',
+  uTServiceImplementation in '..\..\source\uTServiceImplementation.pas';
 
 {$R *.res}
 

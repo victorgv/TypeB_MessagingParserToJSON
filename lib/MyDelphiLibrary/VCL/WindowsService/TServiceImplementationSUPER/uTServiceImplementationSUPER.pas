@@ -1,33 +1,35 @@
-unit uTBaseServiceController;
+ï»¿unit uTServiceImplementationSUPER;
 
 interface
 
-uses Vcl.SvcMgr, Vcl.Forms, Winapi.Windows,System.SysUtils;
+uses Vcl.SvcMgr, Vcl.Forms, Winapi.Windows,System.SysUtils,System.Classes;
 
 type
-  TLogMessage = procedure(const s : String) of object;
+  TLogMessageProcedure = procedure(const p_Message: String) of object;
 
-type TBaseServiceController = Class
+type TServiceImplementationSUPER = Class(TThread)
   private
-    fLogMessage: TLogMessage;
+    fLogMessage: TLogMessageProcedure;
     _ACTIVO: boolean;
     _Service: TService;
-    FNameService: String;
     // ------
+
   protected
     procedure sendEventToLogMessage(const p_message: String; p_EventType: DWord); // Send to Event Viewer
     procedure validateInstanceIsLive; Virtual; Abstract;  // Check our Thread/Threads/Action/Actions, etc... are living
+    function getServiceCode: String; Virtual; Abstract;  // Unique code to indentify your service
   public
     property Activo: Boolean read _activo;
+    property serviceCode: String read getServiceCode;
     // ------
-    procedure PararThreads_;
-    procedure ActivarThreads;
     procedure ProcesarMensajes;
-    function EvaluaTerminated: boolean; // Devuelve TRUE si el programa se esta finalizando
+    function TestApplicationTerminated: boolean; // Devuelve TRUE si el programa se esta finalizando
     procedure ServiceExecute; virtual;
     procedure ServiceStop; virtual;
+    //
+    procedure Execute; override;
     // ------
-    constructor Create(p_LogMessage: TLogMessage); overload; virtual;
+    constructor Create(p_LogMessage: TLogMessageProcedure); overload; virtual;
     constructor Create(p_Service: TService); overload; virtual;
     destructor Destroy; override;
 End;
@@ -36,9 +38,9 @@ implementation
 
 // -----------------------------------------------------------------------------
 
-constructor TBaseServiceController.Create(p_Service: TService);
+constructor TServiceImplementationSUPER.Create(p_Service: TService);
 begin
-  inherited create;
+  inherited create(TRUE);
   // (1) Incializaciones clase
   _ACTIVO := FALSE;
   _Service := p_Service;
@@ -49,7 +51,7 @@ end;
 
 // -----------------------------------------------------------------------------
 
-constructor TBaseServiceController.Create(p_LogMessage: TLogMessage);
+constructor TServiceImplementationSUPER.Create(p_LogMessage: TLogMessageProcedure);
 begin
   _Service := NIL;
   fLogMessage := p_LogMessage;
@@ -57,56 +59,25 @@ begin
 end;
 
 
-// --------------------------------------------------------------------------------------
 
-procedure TBaseServiceController.ActivarThreads;
+// -----------------------------------------------------------------------------
+
+procedure TServiceImplementationSUPER.ServiceExecute;
 begin
-  _ACTIVO := TRUE;
-end;
-
-// --------------------------------------------------------------------------------------
-
-procedure TBaseServiceController.PararThreads_;
-begin
-  _ACTIVO := FALSE;
+  Start;
 end;
 
 // -----------------------------------------------------------------------------
 
-procedure TBaseServiceController.ServiceExecute;
+procedure TServiceImplementationSUPER.ServiceStop;
 begin
-  ActivarThreads;
-  //
-  while (Activo) AND (NOT EvaluaTerminated) do  // Evalua cuando tiene que finalizar
-  try
-    Sleep(1000);
-    ProcesarMensajes;
-    if Activo then // Si después del sleep sigue activo
-    begin
-      validateInstanceIsLive;
-    end;
-  except
-    on e: exception do
-    begin // Captura las excepciones, ya que sino el servicio muere.
-      sleep(5000);
-      // LOG.escribeERROR(e.Message);
-    end;
-  end;
-  PararThreads_;
-end;
-
-// -----------------------------------------------------------------------------
-
-procedure TBaseServiceController.ServiceStop;
-begin
-  inherited;
-  PararThreads_;
+  Terminate;
 end;
 
 
 // -----------------------------------------------------------------------------
 // Procesa mensajes pendientes. Combinar con sleep().
-procedure TBaseServiceController.ProcesarMensajes;
+procedure TServiceImplementationSUPER.ProcesarMensajes;
 begin
   if assigned(_service) then
   begin
@@ -119,16 +90,30 @@ end;
 
 // ------------------------------------------------------------------------------
 
-procedure TBaseServiceController.sendEventToLogMessage(const p_message: String; p_EventType: DWord);
+procedure TServiceImplementationSUPER.sendEventToLogMessage(const p_message: String; p_EventType: DWord);
+var
+  v_type: String;
 begin
   if assigned(_Service) then _Service.LogMessage(p_message,p_EventType) // Log de eventos de windows
-  else if assigned(fLogMessage) then fLogMessage(p_message)
+  else if assigned(fLogMessage) then
+  begin
+    case p_EventType of
+      EVENTLOG_INFORMATION_TYPE: v_type := 'INFO';
+      EVENTLOG_ERROR_TYPE: v_type := 'ERROR';
+    else
+      v_type := 'OTHER';
+    end;
+    Queue(nil, procedure
+      begin
+        fLogMessage(v_type+'> '+p_message);
+      end);
+  end
   else ;
 end;
 
 // -----------------------------------------------------------------------------
 
-destructor TBaseServiceController.Destroy;
+destructor TServiceImplementationSUPER.Destroy;
 var
   i: integer;
 begin
@@ -146,12 +131,34 @@ end;
 
 // -----------------------------------------------------------------------------
 
-function TBaseServiceController.EvaluaTerminated: boolean;
+function TServiceImplementationSUPER.TestApplicationTerminated: boolean;
 begin
   // (1) Si estamos ejecutando servicio evaluamos el terminated del servicio
   if Assigned(_Service) then  result := _Service.Terminated
-  // (2) otro caso la ejecución es un programa normal por lo que evaliamos el application
+  // (2) otro caso la ejecuciï¿½n es un programa normal por lo que evaliamos el application
   else result := Application.Terminated;
+end;
+
+procedure TServiceImplementationSUPER.Execute;
+begin
+  //
+  while not Terminated AND (NOT TestApplicationTerminated) do  // Evalua cuando tiene que finalizar
+  //try
+  begin
+    Sleep(1000);
+    sendEventToLogMessage('HOLA',EVENTLOG_INFORMATION_TYPE);
+{    ProcesarMensajes;
+    if Activo then // Si despuï¿½s del sleep sigue activo
+    begin
+      validateInstanceIsLive;
+    end;
+  except
+    on e: exception do
+    begin // Captura las excepciones, ya que sino el servicio muere.
+      sleep(5000);
+      // LOG.escribeERROR(e.Message);
+    end;}
+  end;
 end;
 
 // -----------------------------------------------------------------------------

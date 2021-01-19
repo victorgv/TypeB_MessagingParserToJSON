@@ -23,7 +23,7 @@ type
     procedure bt_runServerClick(Sender: TObject);
   private
     fServiceImplementation: TServiceImplementation;
-    procedure writeLine_To_Log(const line: String);
+    procedure writeLine_To_Log(const p_line: String);
   public
     { Public declarations }
   end;
@@ -40,11 +40,7 @@ begin
   if not assigned(fServiceImplementation) then // Start
   begin
     fServiceImplementation := TServiceImplementation.Create(writeLine_To_Log);
-    TThread.CreateAnonymousThread(
-      procedure
-      begin
-        fServiceImplementation.ServiceExecute;
-      end);
+    fServiceImplementation.ServiceExecute;
     bt_runServer.Caption := 'Stop server';
   end
   else // Stop
@@ -66,9 +62,9 @@ begin
   FreeAndNil(fServiceImplementation);
 end;
 
-procedure TfmTesting.writeLine_To_Log(const line: String);
+procedure TfmTesting.writeLine_To_Log(const p_line: String);
 begin
-  me_log.Lines.Add(line);
+  me_log.Lines.Add(p_line);
 end;
 
 end.
