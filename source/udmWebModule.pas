@@ -60,7 +60,7 @@ begin
       // Max request size in bytes
       Config[TMVCConfigKey.MaxRequestSize] := IntToStr(TMVCConstants.DEFAULT_MAX_REQUEST_SIZE);
     end);
-  FMVC.AddController(TMyController);
+  FMVC.AddController(TController);
 
   // Enable the following middleware declaration if you want to
   // serve static files from this dmvcframework service.

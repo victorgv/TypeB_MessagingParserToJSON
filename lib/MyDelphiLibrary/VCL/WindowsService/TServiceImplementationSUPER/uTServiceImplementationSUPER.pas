@@ -18,6 +18,7 @@ type TServiceImplementationSUPER = Class(TThread)
     procedure sendEventToLogMessage(const p_message: String; p_EventType: DWord); // Send to Event Viewer
     procedure validateInstanceIsLive; Virtual; Abstract;  // Check our Thread/Threads/Action/Actions, etc... are living
     function getServiceCode: String; Virtual; Abstract;  // Unique code to indentify your service
+    procedure Initializations; virtual;
   public
     property Activo: Boolean read _activo;
     property serviceCode: String read getServiceCode;
@@ -139,6 +140,9 @@ begin
   else result := Application.Terminated;
 end;
 
+
+// -----------------------------------------------------------------------------
+
 procedure TServiceImplementationSUPER.Execute;
 begin
   //
@@ -155,6 +159,13 @@ begin
       // LOG.escribeERROR(e.Message);
     end;
   end;
+end;
+
+// -----------------------------------------------------------------------------
+
+procedure TServiceImplementationSUPER.Initializations;
+begin
+
 end;
 
 // -----------------------------------------------------------------------------
