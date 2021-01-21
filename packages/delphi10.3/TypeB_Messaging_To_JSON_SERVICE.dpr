@@ -2,9 +2,11 @@ program TypeB_Messaging_To_JSON_SERVICE;
 
 uses
   Vcl.SvcMgr,
-  udmService in 'Source\udmService.pas' {dmService: TService},
-  uTBaseServiceController in '..\..\Lib\MyDelphiLibrary\VCL\WindowsService\TBaseServiceController\uTBaseServiceController.pas',
-  uTServiceImplementation in '..\..\Source\uTServiceImplementation.pas';
+  udmService in '..\..\Source\udmService.pas' {dmService: TService},
+  uTServiceImplementation in '..\..\Source\uTServiceImplementation.pas',
+  uTServiceImplementationSUPER in '..\..\lib\MyDelphiLibrary\VCL\WindowsService\TServiceImplementationSUPER\uTServiceImplementationSUPER.pas',
+  udmWebModule in '..\..\source\udmWebModule.pas' {DmWebModule: TWebModule},
+  uTController in '..\..\source\uTController.pas';
 
 {$R *.RES}
 

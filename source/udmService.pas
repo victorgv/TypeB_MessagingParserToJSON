@@ -7,6 +7,7 @@ uses
 
 type
   TdmService = class(TService)
+    procedure ServiceExecute(Sender: TService);
   private
     { Private declarations }
   public
@@ -29,6 +30,15 @@ end;
 function TdmService.GetServiceController: TServiceController;
 begin
   Result := ServiceController;
+end;
+
+procedure TdmService.ServiceExecute(Sender: TService);
+begin
+  while not Terminated do
+  begin
+    ServiceThread.ProcessRequests(True);
+    Sleep(1000);
+  end;
 end;
 
 end.
