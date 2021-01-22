@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, uTServiceImplementation;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, uTServiceImplementation_TypeB_Messaging_To_JSON  ;
 
 type
   TfmTesting = class(TForm)
@@ -22,7 +22,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure bt_runServerClick(Sender: TObject);
   private
-    fServiceImplementation: TServiceImplementation;
+    fServiceImplementation: TServiceImplementation_TypeB_Messaging_To_JSON;
     procedure writeLine_To_Log(const p_line: String);
   public
     { Public declarations }
@@ -39,7 +39,7 @@ procedure TfmTesting.bt_runServerClick(Sender: TObject);
 begin
   if not assigned(fServiceImplementation) then // Start
   begin
-    fServiceImplementation := TServiceImplementation.Create(writeLine_To_Log);
+    fServiceImplementation := TServiceImplementation_TypeB_Messaging_To_JSON.Create(writeLine_To_Log);
     fServiceImplementation.ServiceExecute;
     bt_runServer.Caption := 'Stop server';
   end

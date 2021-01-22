@@ -119,7 +119,6 @@
             <Form>dmService</Form>
             <DesignClass>TService</DesignClass>
         </DCCReference>
-        <DCCReference Include="..\..\Source\uTServiceImplementation.pas"/>
         <DCCReference Include="..\..\lib\MyDelphiLibrary\VCL\WindowsService\TServiceImplementationSUPER\uTServiceImplementationSUPER.pas"/>
         <DCCReference Include="..\..\source\udmWebModule.pas">
             <Form>DmWebModule</Form>
@@ -127,6 +126,7 @@
             <DesignClass>TWebModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\..\source\uTController.pas"/>
+        <DCCReference Include="..\..\source\uTServiceImplementation_TypeB_Messaging_To_JSON.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -8,20 +8,27 @@ uses
 type
 
   [MVCPath('/api')]
-  TController = class(TMVCController) 
-  public
-    [MVCPath]
-    [MVCHTTPMethod([httpGET])]
-    procedure Index;
-
-    [MVCPath('/reversedstrings/($Value)')]
-    [MVCHTTPMethod([httpGET])]
-    procedure GetReversedString(const Value: String);
+  TController = class(TMVCController)
   protected
     procedure OnBeforeAction(Context: TWebContext; const AActionName: string; var Handled: Boolean); override;
     procedure OnAfterAction(Context: TWebContext; const AActionName: string); override;
 
   public
+    [MVCPath]
+    [MVCHTTPMethod([httpGET])]
+    procedure Index;
+
+    [MVCPath('/message_processor')]
+    [MVCHTTPMethod([httpPOST])]
+    procedure messaging_processor;
+
+
+
+    [MVCPath('/reversedstrings/($Value)')]
+    [MVCHTTPMethod([httpGET])]
+    procedure GetReversedString(const Value: String);
+
+
     //Sample CRUD Actions for a "Customer" entity
     [MVCPath('/customers')]
     [MVCHTTPMethod([httpGET])]
@@ -52,8 +59,12 @@ uses
 
 procedure TController.Index;
 begin
-  //use Context property to access to the HTTP request and response 
-  Render('Hello DelphiMVCFramework World');
+  Render('Type B Messaging To JSON Processor');
+end;
+
+procedure TController.messaging_processor;
+begin
+  Render('message_processor');
 end;
 
 procedure TController.GetReversedString(const Value: String);

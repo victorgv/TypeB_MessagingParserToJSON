@@ -1,11 +1,11 @@
-unit uTServiceImplementation;
+unit uTServiceImplementation_TypeB_Messaging_To_JSON;
 
 interface
 
 uses uTServiceImplementationSUPER,IdHTTPWebBrokerBridge,MVCFramework.Commons,Winapi.Windows,
   System.SysUtils, Web.WebReq,udmWebModule;
 
-type TServiceImplementation = Class(TServiceImplementationSUPER)
+type TServiceImplementation_TypeB_Messaging_To_JSON = Class(TServiceImplementationSUPER)
   private
     LServer: TIdHTTPWebBrokerBridge;
     procedure createServer;
@@ -22,7 +22,7 @@ implementation
 { TServiceImplementation }
 
 
-procedure TServiceImplementation.createServer;
+procedure TServiceImplementation_TypeB_Messaging_To_JSON.createServer;
 begin
   sendEventToLogMessage('** DMVCFramework Server ** build ' + DMVCFRAMEWORK_VERSION,EVENTLOG_INFORMATION_TYPE);
 
@@ -41,19 +41,19 @@ begin
   LServer.Active := TRUE;
 end;
 
-function TServiceImplementation.getServiceCode: String;
+function TServiceImplementation_TypeB_Messaging_To_JSON.getServiceCode: String;
 begin
   result := 'TypeB_ToJSON';
 end;
 
-procedure TServiceImplementation.Initializations;
+procedure TServiceImplementation_TypeB_Messaging_To_JSON.Initializations;
 begin
   inherited;
   LServer := NIL;
 
 end;
 
-procedure TServiceImplementation.validateInstanceIsLive;
+procedure TServiceImplementation_TypeB_Messaging_To_JSON.validateInstanceIsLive;
 begin
   try
     while not Terminated AND (NOT TestApplicationTerminated) do  //
