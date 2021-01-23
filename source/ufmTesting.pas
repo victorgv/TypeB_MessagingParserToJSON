@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, uTServiceImplementation_TypeB_Messaging_To_JSON  ;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, uTServiceImplementation_TypeB_Messaging_To_JSON,
+  Vcl.ComCtrls, Vcl.Buttons  ;
 
 type
   TfmTesting = class(TForm)
@@ -12,15 +13,28 @@ type
     Panel2: TPanel;
     rb_internal: TRadioButton;
     rb_server: TRadioButton;
-    Panel3: TPanel;
-    bt_runServer: TButton;
-    bt_port: TEdit;
-    Label1: TLabel;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
     Panel4: TPanel;
     me_log: TMemo;
+    Panel3: TPanel;
+    Label1: TLabel;
+    bt_runServer: TButton;
+    bt_port: TEdit;
+    me_message: TMemo;
+    ed_token: TEdit;
+    Label2: TLabel;
+    ed_version: TComboBox;
+    Label3: TLabel;
+    Label4: TLabel;
+    bt_process_message: TSpeedButton;
+    me_json_result: TMemo;
+    Label5: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bt_runServerClick(Sender: TObject);
+    procedure bt_process_messageClick(Sender: TObject);
   private
     fServiceImplementation: TServiceImplementation_TypeB_Messaging_To_JSON;
     procedure writeLine_To_Log(const p_line: String);
@@ -34,6 +48,21 @@ var
 implementation
 
 {$R *.dfm}
+
+uses uTProcessor;
+
+procedure TfmTesting.bt_process_messageClick(Sender: TObject);
+var
+  processor: TProcessor;
+begin
+  processor := TProcessor.create;
+  try
+    me_json_result.Text := processor.work(StrToIntDef(ed_version.Text,-1),ed_token.text,me_message.Text).ToString;
+  finally
+    processor.Free;
+  end;
+
+end;
 
 procedure TfmTesting.bt_runServerClick(Sender: TObject);
 begin
