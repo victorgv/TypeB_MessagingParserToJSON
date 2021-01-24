@@ -70,3 +70,6 @@ modules/
 
 #others
 *.log
+
+#Exceptions
+!TypeB_Messaging_To_JSON_DLL.dll

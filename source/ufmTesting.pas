@@ -5,9 +5,11 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, uTServiceImplementation_TypeB_Messaging_To_JSON,
-  Vcl.ComCtrls, Vcl.Buttons  ;
+  Vcl.ComCtrls, Vcl.Buttons, System.JSON;
+
 
 type
+  TProcessMessage = function(const p_message: String): TJSONObject; stdcall;
   TfmTesting = class(TForm)
     Panel1: TPanel;
     Panel2: TPanel;
@@ -37,6 +39,8 @@ type
     procedure bt_process_messageClick(Sender: TObject);
   private
     fServiceImplementation: TServiceImplementation_TypeB_Messaging_To_JSON;
+    fDll: THandle;
+    fProcessMessage: TProcessMessage;
     procedure writeLine_To_Log(const p_line: String);
   public
     { Public declarations }
@@ -48,19 +52,20 @@ var
 implementation
 
 {$R *.dfm}
-
 uses uTProcessor;
+
 
 procedure TfmTesting.bt_process_messageClick(Sender: TObject);
 var
   processor: TProcessor;
 begin
-  processor := TProcessor.create;
-  try
-    me_json_result.Text := processor.work(StrToIntDef(ed_version.Text,-1),ed_token.text,me_message.Text).ToString;
-  finally
-    processor.Free;
+  if fDll = 0 then // If DLL doesn't loaded
+  begin
+    fDll := LoadLibrary('TypeB_Messaging_To_JSON_DLL.dll');
+    fProcessMessage := GetProcAddress(fDll,'processMessage');
   end;
+
+  me_json_result.Text := fProcessMessage(me_message.Text).ToString;
 
 end;
 
@@ -84,6 +89,7 @@ end;
 procedure TfmTesting.FormCreate(Sender: TObject);
 begin
   fServiceImplementation := NIL;
+  fDll := 0;
 end;
 
 procedure TfmTesting.FormDestroy(Sender: TObject);
