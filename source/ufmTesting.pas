@@ -21,9 +21,6 @@ type
     Panel4: TPanel;
     me_log: TMemo;
     Panel3: TPanel;
-    Label1: TLabel;
-    bt_runServer: TButton;
-    bt_port: TEdit;
     me_message: TMemo;
     ed_token: TEdit;
     Label2: TLabel;
@@ -33,6 +30,9 @@ type
     bt_process_message: TSpeedButton;
     me_json_result: TMemo;
     Label5: TLabel;
+    Label1: TLabel;
+    bt_port: TEdit;
+    bt_runServer: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bt_runServerClick(Sender: TObject);

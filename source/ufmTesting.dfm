@@ -17,52 +17,76 @@ object fmTesting: TfmTesting
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
-    Top = 609
+    Top = 0
     Width = 1098
     Height = 82
     Align = alTop
-    Caption = 'Panel1'
+    BevelOuter = bvNone
+    ParentBackground = False
+    ParentColor = True
     TabOrder = 0
-    ExplicitLeft = 8
-    ExplicitTop = 344
-    ExplicitWidth = 1127
+    ExplicitLeft = -8
+    ExplicitTop = -35
     object Panel2: TPanel
-      Left = 1
-      Top = 1
-      Width = 216
-      Height = 80
+      Left = 0
+      Top = 0
+      Width = 609
+      Height = 82
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitLeft = 0
-      ExplicitTop = -4
-      ExplicitHeight = 163
+      object Label1: TLabel
+        Left = 135
+        Top = 15
+        Width = 20
+        Height = 13
+        Caption = 'Port'
+      end
       object rb_internal: TRadioButton
-        Left = 16
-        Top = 17
+        Left = 11
+        Top = 10
         Width = 121
         Height = 25
-        Caption = 'Internal'
+        Caption = 'Internal Server'
         TabOrder = 0
       end
       object rb_server: TRadioButton
-        Left = 16
+        Left = 11
         Top = 41
         Width = 121
         Height = 25
-        Caption = 'Server'
+        Caption = 'External'
         TabOrder = 1
+      end
+      object bt_port: TEdit
+        Left = 160
+        Top = 12
+        Width = 38
+        Height = 21
+        NumbersOnly = True
+        TabOrder = 2
+        Text = '8080'
+      end
+      object bt_runServer: TButton
+        Left = 206
+        Top = 10
+        Width = 75
+        Height = 25
+        Caption = 'Run server'
+        TabOrder = 3
+        OnClick = bt_runServerClick
       end
     end
   end
   object PageControl1: TPageControl
     Left = 0
-    Top = 0
+    Top = 82
     Width = 1098
     Height = 609
-    ActivePage = TabSheet1
+    ActivePage = TabSheet2
     Align = alTop
     TabOrder = 1
+    ExplicitTop = 0
     ExplicitWidth = 1127
     object TabSheet1: TTabSheet
       Caption = 'Development Unit Test'
@@ -198,31 +222,6 @@ object fmTesting: TfmTesting
         ExplicitLeft = -3
         ExplicitTop = -24
         ExplicitWidth = 1119
-        object Label1: TLabel
-          Left = 7
-          Top = 14
-          Width = 20
-          Height = 13
-          Caption = 'Port'
-        end
-        object bt_runServer: TButton
-          Left = 78
-          Top = 9
-          Width = 75
-          Height = 25
-          Caption = 'Run server'
-          TabOrder = 0
-          OnClick = bt_runServerClick
-        end
-        object bt_port: TEdit
-          Left = 32
-          Top = 11
-          Width = 38
-          Height = 21
-          NumbersOnly = True
-          TabOrder = 1
-          Text = '8080'
-        end
       end
     end
   end

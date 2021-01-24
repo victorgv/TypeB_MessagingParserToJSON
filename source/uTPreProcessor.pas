@@ -1,11 +1,11 @@
-unit uTProcessor;
+unit uTPreProcessor;
                     interface
 
 uses
   System.JSON;
 
 type
-  TProcessor = class
+  TPreProcessor = class
   private
     fResultJSON: TJSONObject;
     procedure validateToken(p_version: integer; const p_token: string);
@@ -19,26 +19,26 @@ type
 
 implementation
 
-{ TProcessor }
+{ TPreProcessor }
 
-constructor TProcessor.create;
+constructor TPreProcessor.create;
 begin
   inherited;
   fResultJSON := TJSONObject.Create;
 end;
 
-destructor TProcessor.destroy;
+destructor TPreProcessor.destroy;
 begin
   fResultJSON.Free;
   inherited;
 end;
 
-procedure TProcessor.validateToken(p_version: integer; const p_token: string);
+procedure TPreProcessor.validateToken(p_version: integer; const p_token: string);
 begin
-  { TODO : implementar la validación del token contra BD }
+  { TODO : implementar la validaciï¿½n del token contra BD }
 end;
 
-function TProcessor.work(p_version: integer; const p_token, p_message: string): TJSONObject;
+function TPreProcessor.work(p_version: integer; const p_token, p_message: string): TJSONObject;
 begin
 
   result := fResultJSON;

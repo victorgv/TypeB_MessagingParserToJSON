@@ -18,6 +18,11 @@ type
     [MVCHTTPMethod([httpGET])]
     procedure Index;
 
+    [MVCPath('/keepalive')]
+    [MVCHTTPMethod([httpGET])]
+    procedure keepalive;
+
+
     [MVCPath('/message_processor')]
     [MVCHTTPMethod([httpPOST])]
     procedure messaging_processor;
@@ -60,6 +65,11 @@ uses
 procedure TController.Index;
 begin
   Render('Type B Messaging To JSON Processor');
+end;
+
+procedure TController.keepalive;
+begin
+  render('I''m alive');
 end;
 
 procedure TController.messaging_processor;
