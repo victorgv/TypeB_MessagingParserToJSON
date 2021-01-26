@@ -52,12 +52,10 @@ var
 implementation
 
 {$R *.dfm}
-uses uTProcessor;
+
 
 
 procedure TfmTesting.bt_process_messageClick(Sender: TObject);
-var
-  processor: TProcessor;
 begin
   if fDll = 0 then // If DLL doesn't loaded
   begin

@@ -8,14 +8,17 @@ uses uTServiceImplementationSUPER,IdHTTPWebBrokerBridge,MVCFramework.Commons,Win
 type TServiceImplementation_TypeB_Messaging_To_JSON = Class(TServiceImplementationSUPER)
   private
     LServer: TIdHTTPWebBrokerBridge;
+    fDll: THandle;
     procedure createServer;
+    procedure ServiceExecute;
+    procedure ServiceStop;
   protected
     procedure validateInstanceIsLive; override;
     function getServiceCode: String; Override;  // Unique code to indentify your service
     procedure Initializations; override;
   public
-
-End;
+    procedure Execute; override;
+  End;
 
 implementation
 
@@ -41,6 +44,22 @@ begin
   LServer.Active := TRUE;
 end;
 
+procedure TServiceImplementation_TypeB_Messaging_To_JSON.Execute;
+begin
+  // (1) Pre-execute
+  if fDll = 0 then fDll := LoadLibrary('TypeB_Messaging_To_JSON_DLL.dll');
+
+  try
+    // (2) Execute... until service stopped
+    inherited;
+  finally
+    // (3) Post-execute
+    // Nothing for now
+  end;
+
+
+end;
+
 function TServiceImplementation_TypeB_Messaging_To_JSON.getServiceCode: String;
 begin
   result := 'TypeB_ToJSON';
@@ -50,7 +69,18 @@ procedure TServiceImplementation_TypeB_Messaging_To_JSON.Initializations;
 begin
   inherited;
   LServer := NIL;
+  fDll := 0;
 
+end;
+
+procedure TServiceImplementation_TypeB_Messaging_To_JSON.ServiceExecute;
+begin
+  inherited;
+end;
+
+procedure TServiceImplementation_TypeB_Messaging_To_JSON.ServiceStop;
+begin
+  inherited
 end;
 
 procedure TServiceImplementation_TypeB_Messaging_To_JSON.validateInstanceIsLive;

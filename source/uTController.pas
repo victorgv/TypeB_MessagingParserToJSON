@@ -75,6 +75,8 @@ end;
 procedure TController.messaging_processor;
 begin
   Render('message_processor');
+  // TJson.Format(processor.work(me_message.Text));**********
+  // fProcessMessage := GetProcAddress(fDll,'processMessage');******
 end;
 
 procedure TController.GetReversedString(const Value: String);

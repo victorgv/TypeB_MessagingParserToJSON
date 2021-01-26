@@ -109,6 +109,7 @@
         </DCCReference>
         <DCCReference Include="..\..\source\uTController.pas"/>
         <DCCReference Include="..\..\source\uTServiceImplementation_TypeB_Messaging_To_JSON.pas"/>
+        <DCCReference Include="..\..\source\uCommon.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
