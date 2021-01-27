@@ -5,11 +5,10 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, uTServiceImplementation_TypeB_Messaging_To_JSON,
-  Vcl.ComCtrls, Vcl.Buttons, System.JSON;
+  Vcl.ComCtrls, Vcl.Buttons, System.JSON, uCommon;
 
 
 type
-  TProcessMessage = function(const p_message: String): TJSONObject; stdcall;
   TfmTesting = class(TForm)
     Panel1: TPanel;
     Panel2: TPanel;
@@ -31,16 +30,20 @@ type
     me_json_result: TMemo;
     Label5: TLabel;
     Label1: TLabel;
-    bt_port: TEdit;
+    ed_port: TEdit;
     bt_runServer: TButton;
+    RB_DLL: TRadioButton;
+    ed_url: TEdit;
+    Label6: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bt_runServerClick(Sender: TObject);
     procedure bt_process_messageClick(Sender: TObject);
+    procedure RB_DLLClick(Sender: TObject);
   private
     fServiceImplementation: TServiceImplementation_TypeB_Messaging_To_JSON;
     fDll: THandle;
-    fProcessMessage: TProcessMessage;
+    fProcessMessage: TProcessMessageFUNCTION;
     procedure writeLine_To_Log(const p_line: String);
   public
     { Public declarations }
@@ -81,18 +84,29 @@ begin
     freeAndNil(fServiceImplementation);
     bt_runServer.Caption := 'Run server';
   end;
-  bt_port.Enabled := NOT Assigned(fServiceImplementation);
+  ed_port.Enabled := NOT Assigned(fServiceImplementation);
 end;
 
 procedure TfmTesting.FormCreate(Sender: TObject);
 begin
   fServiceImplementation := NIL;
   fDll := 0;
+  RB_DLL.Checked := true;
 end;
 
 procedure TfmTesting.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(fServiceImplementation);
+end;
+
+procedure TfmTesting.RB_DLLClick(Sender: TObject);
+begin
+  TabSheet1.Enabled := RB_DLL.Checked;
+  TabSheet2.Enabled := rb_internal.Checked OR rb_server.Enabled;
+  ed_port.Enabled := rb_internal.Checked;
+  bt_runServer.Enabled := rb_internal.Checked;
+  ed_url.Enabled := rb_server.Checked;
+
 end;
 
 procedure TfmTesting.writeLine_To_Log(const p_line: String);

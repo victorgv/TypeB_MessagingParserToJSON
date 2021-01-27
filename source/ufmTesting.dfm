@@ -36,31 +36,40 @@ object fmTesting: TfmTesting
       BevelOuter = bvNone
       TabOrder = 0
       object Label1: TLabel
-        Left = 135
-        Top = 15
+        Left = 132
+        Top = 36
         Width = 20
         Height = 13
         Caption = 'Port'
       end
+      object Label6: TLabel
+        Left = 133
+        Top = 60
+        Width = 19
+        Height = 13
+        Caption = 'URL'
+      end
       object rb_internal: TRadioButton
         Left = 11
-        Top = 10
+        Top = 31
         Width = 121
         Height = 25
         Caption = 'Internal Server'
         TabOrder = 0
+        OnClick = RB_DLLClick
       end
       object rb_server: TRadioButton
         Left = 11
-        Top = 41
+        Top = 55
         Width = 121
         Height = 25
-        Caption = 'External'
+        Caption = 'External Server'
         TabOrder = 1
+        OnClick = RB_DLLClick
       end
-      object bt_port: TEdit
-        Left = 160
-        Top = 12
+      object ed_port: TEdit
+        Left = 157
+        Top = 33
         Width = 38
         Height = 21
         NumbersOnly = True
@@ -68,13 +77,31 @@ object fmTesting: TfmTesting
         Text = '8080'
       end
       object bt_runServer: TButton
-        Left = 206
-        Top = 10
+        Left = 200
+        Top = 31
         Width = 75
         Height = 25
         Caption = 'Run server'
         TabOrder = 3
         OnClick = bt_runServerClick
+      end
+      object RB_DLL: TRadioButton
+        Left = 11
+        Top = 7
+        Width = 182
+        Height = 25
+        Caption = 'No Server (directly DLL)'
+        TabOrder = 4
+        OnClick = RB_DLLClick
+      end
+      object ed_url: TEdit
+        Left = 157
+        Top = 57
+        Width = 292
+        Height = 21
+        NumbersOnly = True
+        TabOrder = 5
+        Text = 'http://192.168.1.123:8080/api/message_processor'
       end
     end
   end
@@ -83,7 +110,7 @@ object fmTesting: TfmTesting
     Top = 82
     Width = 1098
     Height = 609
-    ActivePage = TabSheet2
+    ActivePage = TabSheet1
     Align = alTop
     TabOrder = 1
     ExplicitTop = 0
