@@ -8,7 +8,6 @@ uses uTServiceImplementationSUPER,IdHTTPWebBrokerBridge,MVCFramework.Commons,Win
 type TServiceImplementation_TypeB_Messaging_To_JSON = Class(TServiceImplementationSUPER)
   private
     LServer: TIdHTTPWebBrokerBridge;
-    fDll: THandle;
     procedure createServer;
     procedure ServiceExecute;
     procedure ServiceStop;
@@ -47,7 +46,7 @@ end;
 procedure TServiceImplementation_TypeB_Messaging_To_JSON.Execute;
 begin
   // (1) Pre-execute
-  if fDll = 0 then fDll := LoadLibrary('TypeB_Messaging_To_JSON_DLL.dll');
+  // ...
 
   try
     // (2) Execute... until service stopped
@@ -69,8 +68,6 @@ procedure TServiceImplementation_TypeB_Messaging_To_JSON.Initializations;
 begin
   inherited;
   LServer := NIL;
-  fDll := 0;
-
 end;
 
 procedure TServiceImplementation_TypeB_Messaging_To_JSON.ServiceExecute;

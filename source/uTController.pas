@@ -3,12 +3,15 @@ unit uTController;
 interface
 
 uses
-  MVCFramework, MVCFramework.Commons, MVCFramework.Serializer.Commons;
+  MVCFramework, MVCFramework.Commons, MVCFramework.Serializer.Commons, uCommon;
 
 type
 
   [MVCPath('/api')]
   TController = class(TMVCController)
+  private
+    fDll: THandle; // Manages DLL with processor
+    fCallProcessMessage: TProcessMessageFUNCTION;
   protected
     procedure OnBeforeAction(Context: TWebContext; const AActionName: string; var Handled: Boolean); override;
     procedure OnAfterAction(Context: TWebContext; const AActionName: string); override;
@@ -55,12 +58,15 @@ type
     [MVCHTTPMethod([httpDELETE])]
     procedure DeleteCustomer(id: Integer);
 
+    // -------------------------------------------------------------
+    constructor Create; virtual;
+
   end;
 
 implementation
 
 uses
-  System.SysUtils, MVCFramework.Logger, System.StrUtils;
+  System.SysUtils, MVCFramework.Logger, System.StrUtils, Winapi.Windows;
 
 procedure TController.Index;
 begin
@@ -75,8 +81,7 @@ end;
 procedure TController.messaging_processor;
 begin
   Render('message_processor');
-  // TJson.Format(processor.work(me_message.Text));**********
-  // fProcessMessage := GetProcAddress(fDll,'processMessage');******
+  //me_json_result.Text := fCallProcessMessage(me_message.Text).ToString;
 end;
 
 procedure TController.GetReversedString(const Value: String);
@@ -107,6 +112,13 @@ end;
 procedure TController.GetCustomer(id: Integer);
 begin
   //todo: render the customer by id
+end;
+
+constructor TController.Create;
+begin
+  inherited;
+  fDll := LoadLibrary('TypeB_Messaging_To_JSON_DLL.dll');
+  fCallProcessMessage := GetProcAddress(fDll,'processMessage');
 end;
 
 procedure TController.CreateCustomer;
