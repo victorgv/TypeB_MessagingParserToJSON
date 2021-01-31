@@ -1,4 +1,4 @@
-﻿unit ufmTesting;
+unit ufmTesting;
 
 interface
 
@@ -35,16 +35,21 @@ type
     RB_DLL: TRadioButton;
     ed_url: TEdit;
     Label6: TLabel;
+    bt_show_dll_info: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bt_runServerClick(Sender: TObject);
     procedure bt_process_messageClick(Sender: TObject);
     procedure RB_DLLClick(Sender: TObject);
+    procedure bt_show_dll_infoClick(Sender: TObject);
   private
     fServiceImplementation: TServiceImplementation_TypeB_Messaging_To_JSON;
     fDll: THandle;
-    fProcessMessage: TProcessMessageFUNCTION;
+    fCallProcessMessage: TProcessMessageFUNCTION;
+    fCallDLLVersion: TDLLVersionFUNCTION;
+    fCallDLLInfo: TDLLInfoFUNCTION;
     procedure writeLine_To_Log(const p_line: String);
+    procedure loadDll;
   public
     { Public declarations }
   end;
@@ -60,13 +65,9 @@ implementation
 
 procedure TfmTesting.bt_process_messageClick(Sender: TObject);
 begin
-  if fDll = 0 then // If DLL doesn't loaded
-  begin
-    fDll := LoadLibrary('TypeB_Messaging_To_JSON_DLL.dll');
-    fProcessMessage := GetProcAddress(fDll,'processMessage');
-  end;
+  loadDll;
 
-  me_json_result.Text := fProcessMessage(me_message.Text).ToString;
+  me_json_result.Text := fCallProcessMessage(me_message.Text).ToString;
 
 end;
 
@@ -87,6 +88,12 @@ begin
   ed_port.Enabled := NOT Assigned(fServiceImplementation);
 end;
 
+procedure TfmTesting.bt_show_dll_infoClick(Sender: TObject);
+begin
+  loadDll;
+  ShowMessage(fCallDLLInfo);
+end;
+
 procedure TfmTesting.FormCreate(Sender: TObject);
 begin
   fServiceImplementation := NIL;
@@ -99,9 +106,21 @@ begin
   FreeAndNil(fServiceImplementation);
 end;
 
+procedure TfmTesting.loadDll;
+begin
+  if fDll = 0 then // If DLL doesn't loaded
+  begin
+    fDll := LoadLibrary('TypeB_Messaging_To_JSON_DLL.dll');
+    fCallProcessMessage := GetProcAddress(fDll,'processMessage');
+    fCallDLLVersion := GetProcAddress(fDll,'version');
+    fCallDLLInfo := GetProcAddress(fDll,'info');
+  end;
+end;
+
 procedure TfmTesting.RB_DLLClick(Sender: TObject);
 begin
   TabSheet1.Enabled := RB_DLL.Checked;
+  bt_show_dll_info.Enabled := RB_DLL.Checked;
   TabSheet2.Enabled := rb_internal.Checked OR rb_server.Enabled;
   ed_port.Enabled := rb_internal.Checked;
   bt_runServer.Enabled := rb_internal.Checked;

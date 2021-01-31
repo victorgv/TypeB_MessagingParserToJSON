@@ -103,6 +103,15 @@ object fmTesting: TfmTesting
         TabOrder = 5
         Text = 'http://192.168.1.123:8080/api/message_processor'
       end
+      object bt_show_dll_info: TButton
+        Left = 156
+        Top = 6
+        Width = 118
+        Height = 25
+        Caption = 'Show DLL info'
+        TabOrder = 6
+        OnClick = bt_show_dll_infoClick
+      end
     end
   end
   object PageControl1: TPageControl
