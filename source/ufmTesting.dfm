@@ -25,8 +25,6 @@ object fmTesting: TfmTesting
     ParentBackground = False
     ParentColor = True
     TabOrder = 0
-    ExplicitLeft = -8
-    ExplicitTop = -35
     object Panel2: TPanel
       Left = 0
       Top = 0
@@ -122,12 +120,8 @@ object fmTesting: TfmTesting
     ActivePage = TabSheet1
     Align = alTop
     TabOrder = 1
-    ExplicitTop = 0
-    ExplicitWidth = 1127
     object TabSheet1: TTabSheet
       Caption = 'Development Unit Test'
-      ExplicitWidth = 1119
-      ExplicitHeight = 165
       object Label2: TLabel
         Left = 7
         Top = 32
@@ -227,8 +221,6 @@ object fmTesting: TfmTesting
     object TabSheet2: TTabSheet
       Caption = 'Server Test / Run All Tests'
       ImageIndex = 1
-      ExplicitWidth = 1119
-      ExplicitHeight = 165
       object Panel4: TPanel
         Left = 0
         Top = 41
@@ -236,8 +228,6 @@ object fmTesting: TfmTesting
         Height = 456
         Align = alTop
         TabOrder = 0
-        ExplicitTop = -291
-        ExplicitWidth = 1119
         object me_log: TMemo
           Left = 7
           Top = 6
@@ -255,10 +245,23 @@ object fmTesting: TfmTesting
         Height = 41
         Align = alTop
         TabOrder = 1
-        ExplicitLeft = -3
-        ExplicitTop = -24
-        ExplicitWidth = 1119
       end
     end
+  end
+  object ck_format: TCheckBox
+    Left = 1000
+    Top = 139
+    Width = 61
+    Height = 17
+    Caption = 'Format'
+    Checked = True
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    State = cbChecked
+    TabOrder = 2
   end
 end

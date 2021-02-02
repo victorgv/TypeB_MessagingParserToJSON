@@ -36,6 +36,7 @@ type
     ed_url: TEdit;
     Label6: TLabel;
     bt_show_dll_info: TButton;
+    ck_format: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bt_runServerClick(Sender: TObject);
@@ -67,7 +68,9 @@ procedure TfmTesting.bt_process_messageClick(Sender: TObject);
 begin
   loadDll;
 
-  me_json_result.Text := fCallProcessMessage(me_message.Text).ToString;
+  if ck_format.Checked then me_json_result.Text := fCallProcessMessage(me_message.Text).Format(2)
+  else me_json_result.Text := fCallProcessMessage(me_message.Text).ToString;
+
 
 end;
 
