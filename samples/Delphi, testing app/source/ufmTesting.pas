@@ -9,6 +9,8 @@ uses
 
 
 type
+  TProcessMessageFUNCTION = function(const p_message: String): TJSONObject; stdcall;
+
   TfmTesting = class(TForm)
     Panel1: TPanel;
     Panel2: TPanel;
