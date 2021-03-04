@@ -1,5 +1,5 @@
 # Type B Messaging Parser To JSON
-Service to extract the information from the MVT, LDM, PSM, CPM, BSM, BTM, BPM, etc. telex messages in JSON format.
+Library to extract the information from the MVT, LDM, PSM, CPM, BSM, BTM, BPM, etc. telex messages in JSON format, it is a DLL that you can use into your projects. This site is to document and show examples of its use.
 
 # What is it?
 [TO-DO]
