@@ -22,6 +22,7 @@ type
     ComboBox1: TComboBox;
     procedure Button1Click(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
     fDll: THandle;
@@ -71,6 +72,12 @@ begin
                            'DLA//23B'+#13#10+
                            'SI 16/SLOW BOARDING D/T COVID 19 REGULATIONS';
   end;
+end;
+
+procedure TForm2.FormDestroy(Sender: TObject);
+begin
+  if fDll <> 0 then
+    FreeLibrary(fDll);
 end;
 
 procedure TForm2.loadDll;
